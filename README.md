@@ -23,7 +23,7 @@ Docker, AWS, Git, SQL...
 > Ademas participe en el apartado web de el proyecto PIA-LARA utilizando tecnologias como: Python, Flask, Mongo DB, Bootstrap.
 [Proyecto LARA](https://github.com/PIALARA/pia-lara)
 
-![Proyecto LARA](/PIA-MIA/logoLaraFinalGrande-300x200.webp)
+![Proyecto LARA](./logoLaraFinalGrande-300x200.webp)
 
 
 Sobre el curso, espero aprender mucho sobre Inteligencia Artificial y Big Data. Mi objetivo es aprender lo maximo posible en este curso y aprender tecnologias y metodologias que me ayuden en un futuro puesto de trabajo
