@@ -1,4 +1,7 @@
-# E1.1 esqueleto
+"""
+E1.1 · Conversor de unidades: pide grados Celsius y muestra
+Fahrenheit y Kelvin con 2 decimales.
+"""
 
 c = float(input("Grados Celsius: "))
 
