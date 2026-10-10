@@ -14,8 +14,7 @@ for alumno, nota in notas.items():
         por_nota[nota]=[alumno]
     
     else:
-        xs = por_nota[nota]
-        xs.append(alumno)
+        por_nota[nota].append(alumno)
 
 print(por_nota)
 # {7: ["ana", "eva"], 9: ["leo"]}

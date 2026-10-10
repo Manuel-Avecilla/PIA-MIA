@@ -13,9 +13,11 @@ t +=    f"{"Opcion 3: búsqueda"}"+"\n"
 t +=    f"{"Opcion 4: listado ordenado"}"+"\n"
 t +=    f"{"Opcion 5: salir"}"+"\n"
 t +=    f"{"-":-^30}"+"\n"
-print(t)
+
 
 while (opcion != 5):
+    
+    print(t)
     
     opcion = int(input("Elige una opción: "))
     
@@ -27,16 +29,23 @@ while (opcion != 5):
             print(min(contactos.keys())+"\n")
         
         case 2:
-            print(f"{"Opcion 2":-^30}"+"\n")
+            print(f"{"Opcion 2: baja":-^30}"+"\n")
             print(max(contactos.keys())+"\n")
         
         case 3:
-            print(f"{"Opcion 3":-^30}"+"\n")
-            continue
+            print(f"{"Opcion 3: búsqueda":-^30}"+"\n")
+            c_input = input("Nombre de contacto: ")
+            
+            c_output = contactos.get(c_input)
+            if c_output is None: c_output = "Contacto no encontrado"
+            print("\n",c_output,"\n")
+            
         
         case 4:
-            print(f"{"Opcion 4":-^30}"+"\n")
-            continue
+            print(f"{"Opcion 4: listado ordenado":-^30}"+"\n")
+            for key, value in sorted(contactos.items()):
+                print(f"Contacto: {key} - Numero: {value}")
+            print()
         
         case 5:
             print(f"{"Agenda cerrada":-^30}"+"\n")
