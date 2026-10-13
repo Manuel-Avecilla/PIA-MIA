@@ -6,7 +6,7 @@ Fahrenheit, en dos columnas alineadas.
 MIN = -20
 MAX = 40
 
-print(f"| {"Celsius":<7} | {"Fahrenheit":>7} |")
+print(f"| {"Celsius":<9} | {"Fahrenheit":>7} |")
 for c in range(MIN,MAX+1,5):
     f = c * 9/5 + 32
-    print(f"| {c:<7}°C | {f:>7} F |")
+    print(f"| {c:<7}°C | {f:<7} F |")
