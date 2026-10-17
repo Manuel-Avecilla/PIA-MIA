@@ -68,21 +68,61 @@ class Dataset:
     def clases(self) -> list[str]:
         return sorted({m.clase for m in self.muestras})
 
-    def dividir(self, proporcion: float = 0.8, semilla: int = 42):
+    def dividir(self, proporcion: float = 0.8, semilla: int = 42) -> tuple[Dataset, Dataset]:
         """Baraja y parte en entrenamiento y prueba de forma reproducible."""
         
-        n_muestras_e = int( self.__len__ * proporcion )
+        # copia
+        cp_muestras = self.muestras.copy()
+
+        # barajar de forma reproducible
+        random.Random(semilla).shuffle(cp_muestras)
+
+        # partir
+        n_muestras_e = int(len(cp_muestras) * proporcion)
         
-        random.Random(semilla).shuffle(muestras) # Esta línea baraja la lista de muestras        ...
+        entrenamiento = Dataset(cp_muestras[:n_muestras_e])
+        prueba = Dataset(cp_muestras[n_muestras_e:])
         
-        
+        return (entrenamiento, prueba)
 
     def rangos(self) -> list[tuple[float, float]]:
         """Mínimo y máximo de cada característica."""
-        ...
+        lista_rangos = []
+        
+        for i in range(0, len(MEDIDAS)):
+            
+            ls_muestra = []
+            
+            for muestra in self.muestras:
+                ls_muestra.append(muestra.medidas[i])
+            
+            lista_rangos.append((min(ls_muestra),max(ls_muestra)))
+        
+        return lista_rangos
+
 
     def normalizar(self, rangos: list[tuple[float, float]]) -> "Dataset":
         """Escala cada característica al rango 0-1 con los rangos dados."""
+        
+        # copia
+        cp_muestras = []
+        
+        for muestra in self.muestras:
+            
+            nuevas_medidas = []
+
+            for i in range(0 , len(MEDIDAS)):
+                
+                if (rangos[i][1] - rangos[i][0] == 0): 
+                    nueva_medida = 0.0
+                else:
+                    nueva_medida = (muestra.medidas[i] - rangos[i][0]) / (rangos[i][1] - rangos[i][0])
+                
+                nuevas_medidas.append(nueva_medida)
+            
+            cp_muestras.append(Muestra(nuevas_medidas,muestra.clase))
+        
+        return Dataset(cp_muestras)
         
 
     def resumen_por_clase(self) -> dict[str, dict[str, float]]:
@@ -154,14 +194,22 @@ class ClasificadorKNN(Modelo):
 
     @staticmethod
     def distancia(a: list[float], b: list[float]) -> float:
-        ...
+        
+        dif = [x - y for x, y in zip(a, b)] # [0.1, 0.3]
+        cuad = [d ** 2 for d in dif]        # [0.01, 0.09]
+        dist = sum(cuad) ** 0.5             # 0.316
+        
+        return dist
 
     def _votar(self, muestra: Muestra) -> str:
         vecinos = sorted(
             self._entrenamiento,
             key=lambda m: self.distancia(muestra.medidas, m.medidas),
         )[: self.k]
-        ...
+        
+        ganadora = Counter(v.clase for v in vecinos).most_common(1)[0][0]
+        
+        return ganadora
 
     def predecir(self, muestras) -> list[str]:
         if self._entrenamiento is None:

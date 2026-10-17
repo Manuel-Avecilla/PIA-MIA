@@ -1,37 +1,91 @@
+"""
+--------- Proyecto final · Clasificador k-NN ---------
+
+Un clasificador de vecinos más cercanos
+
+Carga iris.csv con el módulo csv y construye objetos Muestra .
+
+Divide en entrenamiento y prueba (80/20) barajando con
+random.seed fijo para poder repetir el resultado.
+
+Normaliza las medidas con los valores mínimo y máximo del
+conjunto de entrenamiento.
+
+Implementa ClasificadorKNN: distancia euclídea, k vecinos más
+próximos y voto mayoritario.
+
+Compara con ModeloMayoritario y prueba k = 1, 3, 5, 7, 11.
+Comenta los resultados.
+
+"""
+
 import sys
 from pathlib import Path
- 
-from knn_base import DatosInvalidosError, Dataset, ModeloMayoritario
- 
+
+from knn_base import DatosInvalidosError, Dataset, ModeloMayoritario, ClasificadorKNN
+
 RUTA_POR_DEFECTO = Path(__file__).parent / "iris.csv"
- 
- 
+
+
 def main(ruta: Path) -> None:
     datos = Dataset.desde_csv(ruta)
     print(f"{len(datos)} muestras · clases: {', '.join(datos.clases)}\n")
- 
+
     print("Reparto de muestras por clase:")
     for clase, est in datos.resumen_por_clase().items():
         print(f"  {clase:<14}{est['n']:>3} muestras · "
               f"largo_pet medio {est['media']:.2f}")
- 
+
     # Entrenar y evaluar con el conjunto completo (provisional: ya que luego deberás dividir en entrenamiento y prueba y normalizar los datos antes de realizar el entrenamiento)
-    modelo = ModeloMayoritario().entrenar(datos)
-    predicciones = modelo.predecir(datos)
- 
+    
+    
+    
+    entrenamiento, prueba = datos.dividir(0.8, semilla=42)
+    
+    rangos = entrenamiento.rangos()
+    
+    train_norm = entrenamiento.normalizar(rangos) 
+    test_norm = prueba.normalizar(rangos)   
+    
+    
+    modelo = ModeloMayoritario().entrenar(train_norm)
+    
+    predicciones = modelo.predecir(test_norm)
+
     print(f"\nModelo: {modelo}")
     print(f"Clase aprendida: {predicciones[0]}")
-    print(f"Acierto: {modelo.evaluar(datos):.1%}  "
-          f"(sobre los mismos datos del entrenamiento)")
- 
+    print(f"Acierto: {modelo.evaluar(test_norm):.1%}  "
+          f"(sobre el conjunto de prueba)")
+
     print("\nAcierto por clase:")
-    for clase in datos.clases:
-        total = sum(1 for m in datos if m.clase == clase)
-        bien = sum(1 for m, p in zip(datos, predicciones)
+    for clase in test_norm.clases:
+        total = sum(1 for m in test_norm if m.clase == clase)
+        bien = sum(1 for m, p in zip(test_norm, predicciones)
                    if m.clase == clase and p == clase)
         print(f"  {clase:<14}{bien:>4}/{total:<5}{bien / total:>6.0%}")
- 
- 
+    
+    print("\n" + "="*40)
+    print("Comparativa k-NN según el valor de k:")
+    print("="*40)
+
+    for k in [1, 3, 5, 7, 11]:
+        print("\n" + "_"*40)
+        knn = ClasificadorKNN(k=k).entrenar(train_norm)
+        predicciones_knn = knn.predecir(test_norm)
+        
+        print(f"\nModelo: {knn}")
+        print(f"Acierto: {knn.evaluar(test_norm):.1%}  "
+            f"(sobre el conjunto de prueba)")
+
+        print("\nAcierto por clase:")
+        for clase in test_norm.clases:
+            total = sum(1 for m in test_norm if m.clase == clase)
+            bien = sum(1 for m, p in zip(test_norm, predicciones_knn)
+                    if m.clase == clase and p == clase)
+            print(f"  {clase:<14}{bien:>4}/{total:<5}{bien / total:>6.0%}")
+
+
+
 if __name__ == "__main__":
     ruta = Path(sys.argv[1]) if len(sys.argv) > 1 else RUTA_POR_DEFECTO
     try:
