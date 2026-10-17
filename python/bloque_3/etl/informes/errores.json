@@ -1,0 +1,30 @@
+[
+    {
+        "linea": 3,
+        "motivo": "Número de columnas incorrecto o campos mal delimitados"
+    },
+    {
+        "linea": 4,
+        "motivo": "Unidades inválidas: '' (debe ser un entero positivo)"
+    },
+    {
+        "linea": 5,
+        "motivo": "Fecha inválida: '07/01/2026' (debe ser AAAA-MM-DD)"
+    },
+    {
+        "linea": 7,
+        "motivo": "Unidades inválidas: 'cuatro' (debe ser un entero positivo)"
+    },
+    {
+        "linea": 8,
+        "motivo": "Vendedor inválido o vacío: ''"
+    },
+    {
+        "linea": 10,
+        "motivo": "Unidades inválidas: '-2' (debe ser un entero positivo)"
+    },
+    {
+        "linea": 11,
+        "motivo": "Número de columnas incorrecto o campos mal delimitados"
+    }
+]

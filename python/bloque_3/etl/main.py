@@ -18,11 +18,12 @@ main.py como punto de entrada.
 
 """
 
-from .limpieza import limpiar
-from .carga import get_filas
-# from .informe import 
+from limpieza import limpiar
+from carga import get_filas
+from informe import crear_informe
 
-rechazos = []
+rechazos = []   # Lineas no validas
+validas = []    # Lineas validas
 
 filas = get_filas()
 
@@ -37,4 +38,10 @@ for n, fila in enumerate(filas, start=2):
         rechazos.append({"linea": n,"motivo": str(e)})
         continue
     
-        validas.append(limpia)
+    validas.append(limpia)
+
+
+crear_informe(validas, "ventas_limpio",".csv")
+
+crear_informe(rechazos, "errores",".json")
+
