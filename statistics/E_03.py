@@ -14,22 +14,37 @@ Usa statistics.NormalDist.
 
 import statistics
 
-def normal_tasks(data, x, p):
+def normal_tasks(data, x, p) -> dict:
     
-    sorted_data = sorted(data)
-    n = len(sorted_data)
+    if len(data) == 0:
+        return {
+            "mean": None,
+            "stdev": None,
+            "cdf": None,
+            "inv_cdf": None,
+            "z_score": None
+        }
     
-    if n == 0:
-        return None
-    
-    mean = statistics.mean(sorted_data)
-    stdev = statistics.stdev(sorted_data)
+    mean = statistics.mean(data)
+    stdev = statistics.stdev(data)
     
     NorD = statistics.NormalDist(mu=mean, sigma=stdev)
     
+    cdf = NorD.cdf(float(x))
+    inv_cdf = NorD.inv_cdf(float(x))
     
+    z_score = (x - mean)/stdev
     
-    
-    
-    pass
+    return {
+        "mean": mean,
+        "stdev": stdev,
+        "cdf": cdf,
+        "inv_cdf": inv_cdf,
+        "z_score": z_score
+    }
+
+datos = normal_tasks([1,2,3,4,5,5,6,7,8,3,34,5,2,1,35,4,3,31,1,34,34,5,1,2,3,5], 0.4, 3)
+
+for key, value in datos.items():
+    print(f"{key}: {value}")
 

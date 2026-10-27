@@ -1,0 +1,17 @@
+# Kernel y entorno de ejecución para cuadernos Jupyter/Colab
+jupyterlab>=4.1.0
+notebook>=7.1.0
+ipykernel>=6.29.0
+
+# Cálculo numérico y manipulación de datos
+numpy>=1.26.0
+pandas>=2.2.0
+scipy>=1.12.0
+
+# Visualización y componentes interactivos
+matplotlib>=3.8.0
+seaborn>=0.13.0
+ipywidgets>=8.1.0
+
+# dataset de pruebas
+scikit-learn
