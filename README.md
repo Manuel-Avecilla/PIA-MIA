@@ -5,8 +5,6 @@
 Desde la raíz del proyecto, prepara el entorno virtual e instala las dependencias:
 
 ```bash
-cd python
-
 # Crear el entorno virtual
 python3 -m venv venv
 
