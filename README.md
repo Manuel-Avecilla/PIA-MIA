@@ -1,4 +1,24 @@
 # Repositorio Pia/Mia
+
+## Entorno Python
+
+Desde la raíz del proyecto, prepara el entorno virtual e instala las dependencias:
+
+```bash
+cd python
+
+# Crear el entorno virtual
+python3 -m venv venv
+
+# Activarlo (Linux/macOS)
+source venv/bin/activate
+
+# Actualizar pip e instalar dependencias
+python -m pip install --upgrade pip
+pip install -r requirements.txt
+```
+
+
 ## Presentacion Personal
 
 ---
