@@ -18,3 +18,6 @@ scikit-learn
 
 pyyaml
 pytest
+
+# Motor de reglas CLIPS
+clipspy>=1.0.6
